@@ -1,0 +1,231 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.1",
+    "title": "Opensearch",
+    "description": "Using \"tags\" as the link relation values. Consdering returning search results in the form of another swagger document, especially if clients are being written for swagger/openapi by the larger open source community. None of the paths below are mandatory, so feel free to tweak, add, or remove as necessary."
+  },
+  "externalDocs": {
+    "url": "http://www.opensearch.org/Home"
+  },
+  "tags": [
+    {
+      "name": "search",
+      "description": "Refers to a resource that can be used to search through the link's context and related resources.",
+      "externalDocs": {
+        "url": "https://www.iana.org/assignments/link-relations/link-relations.xhtml"
+      }
+    },
+    {
+      "name": "results",
+      "description": "Represents a request for search results in the specified format.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#url-rel-values"
+      }
+    },
+    {
+      "name": "suggestions",
+      "description": "Represents a request for search suggestions in the specified format. See the OpenSearch Suggestions extension for further details.",
+      "externalDocs": {
+        "url": "http://www.opensearch.org/Specifications/OpenSearch/Extensions/Suggestions/1.1"
+      }
+    },
+    {
+      "name": "collection",
+      "description": "Represents a request for a set of resources.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#url-rel-values"
+      }
+    },
+    {
+      "name": "request",
+      "description": "Represents the search query that can be performed to retrieve the same set of search results.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#local-role-values"
+      }
+    },
+    {
+      "name": "example",
+      "description": "Represents a search query that can be performed to demonstrate the search engine.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#local-role-values"
+      }
+    },
+    {
+      "name": "related",
+      "description": "Represents a search query that can be performed to retrieve similar but different search results.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#local-role-values"
+      }
+    },
+    {
+      "name": "correction",
+      "description": "Represents a search query that can be performed to improve the result set, such as with a spelling correction.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#local-role-values"
+      }
+    },
+    {
+      "name": "subset",
+      "description": "Represents a search query that will narrow the current set of search results.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#local-role-values"
+      }
+    },
+    {
+      "name": "superset",
+      "description": "Represents a search query that will broaden the current set of search results.",
+      "externalDocs": {
+        "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#local-role-values"
+      }
+    },
+    {
+      "name": "next",
+      "description": "Indicates that the link's context is a part of a series, and that the next in the series is the link target.",
+      "externalDocs": {
+        "url": "https://www.iana.org/assignments/link-relations/link-relations.xhtml"
+      }
+    },
+    {
+      "name": "prev",
+      "description": "Indicates that the link's context is a part of a series, and that the previous in the series is the link target.",
+      "externalDocs": {
+        "url": "https://www.iana.org/assignments/link-relations/link-relations.xhtml"
+      }
+    },
+    {
+      "name": "alternate",
+      "description": "Refers to a substitute for this context.",
+      "externalDocs": {
+        "url": "https://www.iana.org/assignments/link-relations/link-relations.xhtml"
+      }
+    }
+  ],
+  "paths": {
+    "/osd.xml": {
+      "get": {
+        "operationId": "search",
+        "description": "An opensearch description document for existing opensearch clients.",
+        "tags": [
+          "search"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/opensearchdescription+xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/results": {
+      "get": {
+        "operationId": "results",
+        "description": "",
+        "tags": [
+          "results"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/searchTerms"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {},
+              "application/rss+xml": {},
+              "application/atom+xml": {},
+              "application/x-swagger+json": {},
+              "application/x-openapi+json": {},
+              "application/x-swagger+yaml": {},
+              "application/x-openapi+yaml": {}
+            }
+          }
+        }
+      }
+    },
+    "/suggestions": {
+      "get": {
+        "operationId": "suggestions",
+        "description": "",
+        "tags": [
+          "suggestions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/searchTerms"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/x-suggestions+json": {},
+              "application/vnd.lv+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/lv"
+                }
+              },
+              "application/vnd.lvu+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/lvu"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "searchTerms": {
+        "in": "query",
+        "name": "searchTerms",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "externalDocs": {
+            "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#the-searchterms-parameter"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "lv": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "lvu": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
